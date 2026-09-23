@@ -1,0 +1,197 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Books - College Library</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .table-box {
+            background: white;
+            color: #333;
+            padding: 25px;
+            border-radius: 15px;
+            overflow-x: auto;
+        }
+
+        h2 {
+            margin-bottom: 20px;
+            color: #667eea;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f2f2f2;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 25px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #d32f2f;
+            padding: 15px;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>📚 Books Details</h1>
+
+        <div class="table-box">
+
+            <h2>Available Books</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Book ID</th>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Total Copies</th>
+                        <th>Available Copies</th>
+                    </tr>
+                </thead>
+
+                <tbody id="booksTable">
+
+                    <tr>
+                        <td colspan="6">Loading books...</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <a href="home.html" class="back-btn">
+            ⬅ Back to Home
+        </a>
+
+    </div>
+
+    <script>
+
+        async function loadBooks() {
+
+            try {
+
+                const response = await fetch("http://localhost:5000/api/books");
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch books");
+                }
+
+                const books = await response.json();
+
+                const table = document.getElementById("booksTable");
+
+                table.innerHTML = "";
+
+                if (books.length === 0) {
+
+                    table.innerHTML = `
+                        <tr>
+                            <td colspan="6">No books found.</td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+                books.forEach(book => {
+
+                    table.innerHTML += `
+                        <tr>
+                            <td>${book.book_id}</td>
+                            <td>${book.book_title}</td>
+                            <td>${book.author}</td>
+                            <td>${book.category_name || "N/A"}</td>
+                            <td>${book.total_copies}</td>
+                            <td>${book.available_copies}</td>
+                        </tr>
+                    `;
+
+                });
+
+            } catch (error) {
+
+                console.error("Error:", error);
+
+                document.getElementById("booksTable").innerHTML = `
+                    <tr>
+                        <td colspan="6" class="error">
+                            Failed to load books. Please check your backend.
+                        </td>
+                    </tr>
+                `;
+
+            }
+
+        }
+
+        loadBooks();
+
+    </script>
+
+</body>
+
+</html>

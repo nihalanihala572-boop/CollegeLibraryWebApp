@@ -1,0 +1,296 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>College Library Login</title>
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(-45deg, #667eea, #764ba2, #36d1dc, #5b86e5);
+      background-size: 400% 400%;
+      animation: gradientMove 12s ease infinite;
+      padding: 20px;
+    }
+
+    .login-container {
+      display: flex;
+      align-items: center;
+      gap: 45px;
+      padding: 40px;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      box-shadow: 0 10px 35px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1.2s ease;
+    }
+
+    .person-section {
+      text-align: center;
+      animation: personFloat 3s ease-in-out infinite;
+    }
+
+    .person {
+      font-size: 130px;
+      filter: drop-shadow(0 0 15px white);
+    }
+
+    .person-section p {
+      color: white;
+      font-size: 16px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+
+    .login-box {
+      width: 320px;
+      text-align: center;
+      color: white;
+    }
+
+    .login-box h1 {
+      margin-bottom: 25px;
+      font-size: 28px;
+    }
+
+    .input-group {
+      position: relative;
+      margin: 18px 0;
+    }
+
+    .input-group > span {
+      position: absolute;
+      left: 15px;
+      top: 14px;
+      font-size: 18px;
+      z-index: 2;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 50px 14px 45px;
+      border: 2px solid transparent;
+      border-radius: 25px;
+      outline: none;
+      font-size: 15px;
+      transition: 0.3s;
+    }
+
+    input:focus {
+      border-color: white;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.6);
+    }
+
+    .password-box {
+      position: relative;
+      width: 100%;
+    }
+
+    .password-box button {
+      position: absolute;
+      right: 8px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 35px;
+      height: 35px;
+      padding: 0;
+      margin: 0;
+      border: none;
+      border-radius: 50%;
+      background: transparent;
+      color: #667eea;
+      font-size: 18px;
+      cursor: pointer;
+      box-shadow: none;
+    }
+
+    .password-box button:hover {
+      transform: translateY(-50%) scale(1.1);
+      box-shadow: none;
+    }
+
+    .login-button {
+      width: 100%;
+      padding: 14px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 25px;
+      background: white;
+      color: #667eea;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .login-button:hover {
+      transform: translateY(-5px) scale(1.04);
+      box-shadow: 0 0 25px white;
+    }
+
+    #message {
+      margin-top: 15px;
+      color: #ffe0e0;
+      font-size: 14px;
+    }
+
+    @keyframes gradientMove {
+      0% {
+        background-position: 0% 50%;
+      }
+
+      50% {
+        background-position: 100% 50%;
+      }
+
+      100% {
+        background-position: 0% 50%;
+      }
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(50px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes personFloat {
+      0%, 100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-18px);
+      }
+    }
+
+    @media (max-width: 700px) {
+      .login-container {
+        flex-direction: column;
+        gap: 15px;
+        padding: 25px;
+      }
+
+      .person {
+        font-size: 90px;
+      }
+
+      .login-box {
+        width: 280px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="login-container">
+
+    <div class="person-section">
+      <div class="person">🧑‍💻</div>
+      <p>Welcome Back! 👋</p>
+    </div>
+
+    <div class="login-box">
+
+      <h1>📚 Library Login</h1>
+
+      <form onsubmit="login(event)">
+
+        <div class="input-group">
+          <span>👤</span>
+
+          <input
+            type="text"
+            id="username"
+            placeholder="Username"
+            required
+          >
+        </div>
+
+        <div class="input-group">
+
+          <span>🔒</span>
+
+          <div class="password-box">
+
+            <input
+              type="password"
+              id="password"
+              placeholder="Password"
+              required
+            >
+
+            <button
+              type="button"
+              id="togglePassword"
+              onclick="togglePasswordVisibility()"
+            >👁️</button>
+
+          </div>
+
+        </div>
+
+        <button type="submit" class="login-button">
+          Login 🚀
+        </button>
+
+        <p id="message"></p>
+
+      </form>
+
+    </div>
+
+  </div>
+
+  <script>
+    function login(event) {
+      event.preventDefault();
+
+      const username = document.getElementById("username").value;
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      if (username === "Angel" && password === "queen123") {
+        window.location.href = "home.html";
+      } else {
+        message.textContent = "Invalid username or password!";
+      }
+    }
+
+    function togglePasswordVisibility() {
+      const password = document.getElementById("password");
+      const toggleButton = document.getElementById("togglePassword");
+
+      if (password.type === "password") {
+        password.type = "text";
+        toggleButton.textContent = "🙈";
+      } else {
+        password.type = "password";
+        toggleButton.textContent = "👁️";
+      }
+    }
+  </script>
+
+</body>
+
+</html>

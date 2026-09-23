@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>College Library Management System</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <!-- Back to Home -->
+  <a href="home.html" class="back-home">
+    ⬅️ Back to Home
+  </a>
+
+  <!-- Header -->
+  <header>
+    <h1>📚 College Library Management System</h1>
+
+    <p>Welcome to CollegeLibraryDB</p>
+
+    <p class="welcome-text">
+      Manage books, members, and issue records easily.
+    </p>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+
+    <!-- Statistics -->
+    <section class="stats">
+
+      <div>
+        <h3>📚 Total Books</h3>
+        <p id="totalBooks">0</p>
+      </div>
+
+      <div>
+        <h3>👥 Total Members</h3>
+        <p id="totalMembers">0</p>
+      </div>
+
+      <div>
+        <h3>📖 Total Issues</h3>
+        <p id="totalIssues">0</p>
+      </div>
+
+      <div>
+        <h3>⏳ Active Issues</h3>
+        <p id="activeIssues">0</p>
+      </div>
+
+    </section>
+
+    <!-- Search Books -->
+    <section class="panel">
+
+      <h2>Search Books</h2>
+
+      <input
+        id="search"
+        placeholder="Search by title or author"
+        oninput="filterBooks()"
+      >
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Category</th>
+            <th>Available</th>
+          </tr>
+        </thead>
+
+        <tbody id="booksTable"></tbody>
+
+      </table>
+
+    </section>
+
+    <!-- Issue a Book -->
+    <section class="panel">
+
+      <h2>Issue a Book</h2>
+
+      <form id="issueForm">
+
+        <input
+          id="bookId"
+          type="number"
+          placeholder="Book ID"
+          required
+        >
+
+        <input
+          id="memberId"
+          type="number"
+          placeholder="Member ID"
+          required
+        >
+
+        <label>
+          Issue Date
+          <input
+            id="issueDate"
+            type="date"
+            required
+          >
+        </label>
+
+        <label>
+          Due Date
+          <input
+            id="dueDate"
+            type="date"
+            required
+          >
+        </label>
+
+        <button type="submit">
+          Issue Book
+        </button>
+
+      </form>
+
+      <p id="message"></p>
+
+    </section>
+
+    <!-- Issue and Return Records -->
+    <section class="panel">
+
+      <h2>Issue and Return Records</h2>
+
+      <table>
+
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Member</th>
+            <th>Book</th>
+            <th>Issue Date</th>
+            <th>Due Date</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+
+        <tbody id="issuesTable"></tbody>
+
+      </table>
+
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+
+    <p>© 2026 College Library Management System</p>
+
+    <p>Designed by Nihala Begam A</p>
+
+  </footer>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+
+</body>
+
+</html>

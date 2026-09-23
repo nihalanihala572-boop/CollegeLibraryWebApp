@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Issues - College Library</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            padding: 40px 20px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .table-box {
+            background: white;
+            color: #333;
+            padding: 25px;
+            border-radius: 15px;
+            overflow-x: auto;
+        }
+
+        h2 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            padding: 14px;
+            border-bottom: 1px solid #ddd;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+        }
+
+        tr:hover {
+            background: #f2f2f2;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 25px;
+            background: white;
+            color: #667eea;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+        }
+
+        .error {
+            color: #d32f2f;
+            text-align: center;
+            padding: 15px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <h1>📖 Library Issue Records</h1>
+
+        <div class="table-box">
+
+            <h2>Book Issues</h2>
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Issue ID</th>
+                        <th>Member Name</th>
+                        <th>Book Title</th>
+                        <th>Issue Date</th>
+                        <th>Due Date</th>
+                        <th>Return Date</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+
+                <tbody id="issuesTable">
+
+                    <tr>
+                        <td colspan="7">Loading issue records...</td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <a href="home.html" class="back-btn">
+            ⬅ Back to Home
+        </a>
+
+    </div>
+
+    <script>
+
+        async function loadIssues() {
+
+            try {
+
+                const response = await fetch("http://localhost:5000/api/issues");
+
+                if (!response.ok) {
+                    throw new Error("Failed to fetch issues");
+                }
+
+                const issues = await response.json();
+
+                const table = document.getElementById("issuesTable");
+
+                table.innerHTML = "";
+
+                if (issues.length === 0) {
+
+                    table.innerHTML = `
+                        <tr>
+                            <td colspan="7">
+                                No issue records found.
+                            </td>
+                        </tr>
+                    `;
+
+                    return;
+                }
+
+                issues.forEach(issue => {
+
+                    table.innerHTML += `
+                        <tr>
+                            <td>${issue.issue_id}</td>
+                            <td>${issue.member_name}</td>
+                            <td>${issue.book_title}</td>
+                            <td>${issue.issue_date}</td>
+                            <td>${issue.due_date}</td>
+                            <td>${issue.return_date || "Not Returned"}</td>
+                            <td class="status">${issue.issue_status}</td>
+                        </tr>
+                    `;
+
+                });
+
+            } catch (error) {
+
+                console.error("Error:", error);
+
+                document.getElementById("issuesTable").innerHTML = `
+                    <tr>
+                        <td colspan="7" class="error">
+                            Failed to load issue records.
+                            Please check your backend.
+                        </td>
+                    </tr>
+                `;
+
+            }
+
+        }
+
+        loadIssues();
+
+    </script>
+
+</body>
+
+</html>
